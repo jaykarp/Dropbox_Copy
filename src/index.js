@@ -38,6 +38,7 @@ const buildTree = data => {
  * @parent {HTMLElement} parent - The HTMLElement where the tree should be built from (default is document.body)
  *
  */
+
 const displayTree = (
     tree,
     parent = document.body,
@@ -104,6 +105,11 @@ const createAndAppend = (el, par, klass = null) => {
     return _el;
 };
 
+/**
+ *  Helper function to add folder Caret functionality
+ *
+ */
+
 const addDropdown = () => {
     let caretList = document.getElementsByClassName("caret");
 
@@ -115,6 +121,13 @@ const addDropdown = () => {
         });
     }
 };
+
+/**
+ * Function to display which items are selected from the file tree.
+ *
+ * @param{HTMLElement} target - Form data to select all checked boxes
+ *
+ */
 
 const logChecks = ({ target }) => {
     for (const child of target.children) {
@@ -133,6 +146,13 @@ const logChecks = ({ target }) => {
     });
 };
 
+/**
+ *  Async function to continously make API calls to dropbox while avoiding "too many calls" at the same time
+ *
+ *  @param {string} from - File path the where copied file/folder exists
+ *  @param {string} to - File path to where file/folder will be copied
+ */
+
 const callTimeout = async (from, to) => {
     return dbx
         .filesCopyV2({
@@ -144,6 +164,11 @@ const callTimeout = async (from, to) => {
             alert(error.error_summary + `- from: ${from} - to: ${to}`);
         });
 };
+
+/**
+ * Async function that calls callTimeout and does some error checking as well as builds progress bar for copying progress
+ *
+ */
 
 const doCopy = async () => {
     const forms = document.querySelectorAll("form");
@@ -167,6 +192,12 @@ const doCopy = async () => {
     }
     start();
 };
+
+/**
+ * Function that builds tree, creates DOM elements for selecting files, calls dropdown creation
+ *
+ *@param {object} response - The response returned from the GET API call to Dropbox API
+ */
 
 const buildPage = response => {
     const tree = buildTree(response);
@@ -211,6 +242,11 @@ const buildPage = response => {
     });
 };
 
+/**
+ *  Function that clears page after dropbox copying API calls have completed, restarts for new copy selection.
+ *
+ */
+
 const clearPage = () => {
     const forms = document.body.querySelectorAll("form");
     const inputs = document.body.querySelectorAll("input");
@@ -223,6 +259,11 @@ const clearPage = () => {
     });
     progress.forEach(p => document.body.removeChild(p));
 };
+
+/**
+ * Function that gets called to create Dropbox connection based on API token also build the page.
+ *
+ */
 
 const start = () => {
     accessToken = APIInput.value;
@@ -245,6 +286,8 @@ const start = () => {
             alert(error.error[".tag"] + ": something went wrong");
         });
 };
+
+/// The Folloing Lines set up the API token and then call the start() function to begin building
 
 const APIForm = createAndAppend("form", document.body, {
     action: "javascript:void(0);",
