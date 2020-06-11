@@ -1,0 +1,17 @@
+{
+  "name": "dropbox_copy",
+  "version": "1.0.0",
+  "description": "Dropbox Multiple copying utility",
+  "private": true,
+  "author": "Jay Karp",
+  "license": "MIT",
+  "dependencies": {
+    "dropbox": "^4.0.30",
+    "webpack": "^4.43.0"
+  },
+  "devDependencies": {
+    "css-loader": "^3.5.3",
+    "style-loader": "^1.2.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
